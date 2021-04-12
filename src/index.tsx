@@ -121,7 +121,7 @@ export interface DemoScript {
  * stepsForText converts a text string into a series of DemoScriptStep's, with appropriate
  * kinds for whitespace, newlines and pastes. Note that clusters of whitespace will be converted
  * to a single insertion, to match auto-indentation.
- * 
+ *
  * @param text The text to convert.
  * @param target The targert for the elements (must be EDITOR or REPL)
  * @param startLineNumber The optional starting line number (1-indexed)
@@ -324,7 +324,7 @@ export function AnimatedCodeExample(props: AnimatedCodeExampleProps) {
   const [target, setTarget] = useState<StepTarget | undefined>(undefined);
 
   const { inView, ref } = useInView({
-    threshold: 1,
+    threshold: 0.8,
     triggerOnce: true,
   });
 
@@ -426,18 +426,21 @@ export function AnimatedCodeExample(props: AnimatedCodeExampleProps) {
         <Editor
           value={props.script.initialEditorContent}
           width={props.editorWidth ?? 600}
-          height={props.editorHeight ?? 300}
+          height={props.editorHeight ?? 200}
           language={props.script.editorLanguage}
           onMount={handleEditorMounted}
           options={{
-            scrollbar: { handleMouseWheel: false },
+            theme: 'vs-dark',
+            padding: { top: '10px' },
+            scrollbar: { handleMouseWheel: false, vertical: 'hidden', horizontal: 'hidden' },
             minimap: {
               enabled: false
             },
             highlightActiveIndentGuide: false,
             cursorStyle: 'block-outline',
             overviewRulerBorder: false,
-            renderLineHighlight: "none"
+            wordWrap: 'on',
+            renderLineHighlight: 'none'
           }}
         />
       </div>
