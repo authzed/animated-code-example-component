@@ -304,12 +304,12 @@ export interface AnimatedCodeExampleProps {
   /**
    * theme sets the visible theme for the editor and repl. Defaults to 'light'.
    */
-  theme?: string
+  theme?: 'light' | 'dark' | undefined
 
   /**
-   * withActive enables visible highlighting of the in use component. Defaults to false.
+   * highlightActiveElement enables visible highlighting of the in use component. Defaults to false.
    */
-  withActive?: boolean
+  highlightActiveElement?: boolean
 }
 
 const sleep = (ms: number) => {
@@ -433,7 +433,7 @@ export function AnimatedCodeExample(props: AnimatedCodeExampleProps) {
   }, [monaco, isEditorReady, inView, props.script]);
 
   return <div ref={ref}>
-    <div className={clsx(Styles['animated-preview'], Styles[theme], props.withActive && Styles["with-active"], props.rootClassName)}>
+    <div className={clsx(Styles['animated-preview'], Styles[theme], props.highlightActiveElement && Styles["with-active"], props.rootClassName)}>
       <div className={clsx(Styles["editor-container"], Styles["target"], { [Styles["active"]]: target === StepTarget.EDITOR })}>
         <div className={Styles["editor-overlay"]}></div>
         <Editor
