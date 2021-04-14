@@ -338,8 +338,7 @@ export function AnimatedCodeExample(props: AnimatedCodeExampleProps) {
     triggerOnce: true,
   });
 
-  // 'dark'/'light' support only, default to light
-  const theme = props.theme && props.theme.toLowerCase() === 'dark' ? 'dark' : 'light';
+  const theme = props.theme ?? 'light';
 
   useEffect(() => {
     const runScript = () => {
