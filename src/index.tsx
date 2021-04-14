@@ -300,6 +300,16 @@ export interface AnimatedCodeExampleProps {
    * rootClassName is the custom root CSS class name for the component.
    */
   rootClassName?: string
+
+  /**
+   * theme sets the visible theme for the editor and repl. Defaults to 'light'.
+   */
+  theme?: string
+
+  /**
+   * withActive enables visible highlighting of the in use component. Defaults to false.
+   */
+  withActive?: boolean
 }
 
 const sleep = (ms: number) => {
@@ -327,6 +337,9 @@ export function AnimatedCodeExample(props: AnimatedCodeExampleProps) {
     threshold: 0.8,
     triggerOnce: true,
   });
+
+  // 'dark'/'light' support only, default to light
+  const theme = props.theme && props.theme.toLowerCase() === 'dark' ? 'dark' : 'light';
 
   useEffect(() => {
     const runScript = () => {
@@ -420,7 +433,7 @@ export function AnimatedCodeExample(props: AnimatedCodeExampleProps) {
   }, [monaco, isEditorReady, inView, props.script]);
 
   return <div ref={ref}>
-    <div className={clsx(Styles['animated-preview'], props.rootClassName)}>
+    <div className={clsx(Styles['animated-preview'], Styles[theme], props.withActive && Styles["with-active"], props.rootClassName)}>
       <div className={clsx(Styles["editor-container"], Styles["target"], { [Styles["active"]]: target === StepTarget.EDITOR })}>
         <div className={Styles["editor-overlay"]}></div>
         <Editor
@@ -430,7 +443,7 @@ export function AnimatedCodeExample(props: AnimatedCodeExampleProps) {
           language={props.script.editorLanguage}
           onMount={handleEditorMounted}
           options={{
-            theme: 'vs-dark',
+            theme: theme === 'dark' ? 'vs-dark' : 'vs',
             padding: { top: '10px' },
             scrollbar: { handleMouseWheel: false, vertical: 'hidden', horizontal: 'hidden' },
             minimap: {

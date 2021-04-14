@@ -20,8 +20,11 @@
 .editor-container {
   position: relative;
   min-width: 600px;
-  background-color: #303030;
   border: 2px solid transparent;
+}
+
+.dark .editor-container {
+  background-color: #303030;
 }
 
 .editor-overlay {
@@ -123,11 +126,14 @@
 .repl {
   font-family: monospace;
   min-height: 100px;
-  background-color: #303030;
-  color: #d4d4d4;
   margin: 0;
   padding: 0.5rem;
   border: 2px solid transparent;
+}
+
+.dark .repl {
+  background-color: #303030;
+  color: #d4d4d4;
 }
 
 .animated-preview {
@@ -169,12 +175,12 @@
   }
 }
 
-.target {
-  /* border: 3px solid transparent; */
+.with-active .target {
+  border: 3px solid transparent;
 }
 
-.active {
-  /* border: 2px solid green; */
+.with-active .active {
+  border: 2px solid #ff9bb6;
 }
 
 /* From: https://projects.lukehaas.me/css-loaders/ */

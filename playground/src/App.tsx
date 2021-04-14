@@ -25,7 +25,7 @@ def hello_world():
 }
 
 const App = () => {
-  return <AnimatedCodeExample script={script} />;
+  return <AnimatedCodeExample script={script} theme="dark" withActive={true} />;
 }
 
 export default App
