@@ -289,12 +289,12 @@ export interface AnimatedCodeExampleProps {
   /**
    * editorWidth is the width of the code editor displayed. Defaults to 600.
    */
-  editorWidth?: number
+  editorWidth?: number | string
 
   /**
    * editorHeight is the height of the code editor displayed. Defaults to 300.
    */
-  editorHeight?: number
+  editorHeight?: number | string
 
   /**
    * rootClassName is the custom root CSS class name for the component.
