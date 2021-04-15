@@ -121,7 +121,7 @@ export interface DemoScript {
  * stepsForText converts a text string into a series of DemoScriptStep's, with appropriate
  * kinds for whitespace, newlines and pastes. Note that clusters of whitespace will be converted
  * to a single insertion, to match auto-indentation.
- * 
+ *
  * @param text The text to convert.
  * @param target The targert for the elements (must be EDITOR or REPL)
  * @param startLineNumber The optional starting line number (1-indexed)
@@ -300,6 +300,16 @@ export interface AnimatedCodeExampleProps {
    * rootClassName is the custom root CSS class name for the component.
    */
   rootClassName?: string
+
+  /**
+   * theme sets the visible theme for the editor and repl. Defaults to 'light'.
+   */
+  theme?: 'light' | 'dark' | undefined
+
+  /**
+   * highlightActiveElement enables visible highlighting of the in use component. Defaults to false.
+   */
+  highlightActiveElement?: boolean
 }
 
 const sleep = (ms: number) => {
@@ -324,9 +334,11 @@ export function AnimatedCodeExample(props: AnimatedCodeExampleProps) {
   const [target, setTarget] = useState<StepTarget | undefined>(undefined);
 
   const { inView, ref } = useInView({
-    threshold: 1,
+    threshold: 0.8,
     triggerOnce: true,
   });
+
+  const theme = props.theme ?? 'light';
 
   useEffect(() => {
     const runScript = () => {
@@ -420,24 +432,27 @@ export function AnimatedCodeExample(props: AnimatedCodeExampleProps) {
   }, [monaco, isEditorReady, inView, props.script]);
 
   return <div ref={ref}>
-    <div className={clsx(Styles['animated-preview'], props.rootClassName)}>
+    <div className={clsx(Styles['animated-preview'], Styles[theme], props.highlightActiveElement && Styles["with-active"], props.rootClassName)}>
       <div className={clsx(Styles["editor-container"], Styles["target"], { [Styles["active"]]: target === StepTarget.EDITOR })}>
         <div className={Styles["editor-overlay"]}></div>
         <Editor
           value={props.script.initialEditorContent}
           width={props.editorWidth ?? 600}
-          height={props.editorHeight ?? 300}
+          height={props.editorHeight ?? 200}
           language={props.script.editorLanguage}
           onMount={handleEditorMounted}
           options={{
-            scrollbar: { handleMouseWheel: false },
+            theme: theme === 'dark' ? 'vs-dark' : 'vs',
+            padding: { top: '10px' },
+            scrollbar: { handleMouseWheel: false, vertical: 'hidden', horizontal: 'hidden' },
             minimap: {
               enabled: false
             },
             highlightActiveIndentGuide: false,
             cursorStyle: 'block-outline',
             overviewRulerBorder: false,
-            renderLineHighlight: "none"
+            wordWrap: 'on',
+            renderLineHighlight: 'none'
           }}
         />
       </div>
