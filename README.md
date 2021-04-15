@@ -77,5 +77,6 @@ To edit and test demo scripts, the playground can be run via yarn:
 
 ```sh
 cd playground
+yarn install # If this is the first time running
 yarn start
 ```
